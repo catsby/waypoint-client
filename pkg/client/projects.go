@@ -2,9 +2,9 @@ package client
 
 import (
 	"context"
-	gen "github.com/hashicorp-dev-advocates/waypoint-client/pkg/waypoint"
-	"google.golang.org/protobuf/types/known/emptypb"
 	"time"
+
+	gen "github.com/hashicorp-dev-advocates/waypoint-client/pkg/waypoint"
 )
 
 type ProjectConfig struct {
@@ -229,10 +229,24 @@ func (c *waypointImpl) GetProject(ctx context.Context, name string) (*gen.Projec
 
 func (c *waypointImpl) ListProject(ctx context.Context) ([]*gen.Ref_Project, error) {
 
-	prl, err := c.client.ListProjects(ctx, &emptypb.Empty{})
+	prl, err := c.client.ListProjects(ctx, &gen.ListProjectsRequest{Pagination: &gen.PaginationRequest{}})
 	if err != nil {
 		return nil, err
 	}
 
 	return prl.Projects, nil
+}
+
+// DestroyProject destroys a project
+func (c *waypointImpl) DestroyProject(ctx context.Context, name string) error {
+	gpr := &gen.DestroyProjectRequest{
+		Project: &gen.Ref_Project{Project: name},
+	}
+
+	_, err := c.client.DestroyProject(ctx, gpr)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
