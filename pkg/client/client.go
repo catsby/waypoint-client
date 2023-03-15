@@ -5,6 +5,7 @@ import (
 	"crypto/tls"
 	"errors"
 	"fmt"
+
 	gen "github.com/hashicorp-dev-advocates/waypoint-client/pkg/waypoint"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/connectivity"
@@ -53,6 +54,7 @@ type Waypoint interface {
 	GRPCClient() gen.WaypointClient
 	GetVersionInfo(ctx context.Context) (*gen.VersionInfo, error)
 	GetProject(ctx context.Context, name string) (*gen.Project, error)
+	DestroyProject(ctx context.Context, name string) error
 	CreateToken(ctx context.Context, id UserRef) (string, error)
 	InviteUser(ctx context.Context, InitialUsername string, TokenTtl string) (string, error)
 	AcceptInvitation(ctx context.Context, InitialUsername string) (string, error)
