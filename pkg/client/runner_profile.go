@@ -2,7 +2,10 @@ package client
 
 import (
 	"context"
+
 	gen "github.com/hashicorp-dev-advocates/waypoint-client/pkg/waypoint"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 type RunnerConfig struct {
@@ -79,4 +82,16 @@ func (c *waypointImpl) GetRunnerProfile(ctx context.Context, id string) (*gen.Ge
 	}
 
 	return godrr, nil
+}
+
+func (c *waypointImpl) DeleteRunnerProfile(ctx context.Context, id string) error {
+	_, err := c.client.DeleteOnDemandRunnerConfig(ctx, &gen.DeleteOnDemandRunnerConfigRequest{
+		Config: &gen.Ref_OnDemandRunnerConfig{
+			Id: id,
+		},
+	})
+	if err != nil && status.Code(err) != codes.NotFound {
+		return nil
+	}
+	return err
 }

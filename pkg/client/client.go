@@ -63,6 +63,7 @@ type Waypoint interface {
 	ListProject(ctx context.Context) ([]*gen.Ref_Project, error)
 	CreateRunnerProfile(ctx context.Context, config RunnerConfig) (*gen.UpsertOnDemandRunnerConfigResponse, error)
 	GetRunnerProfile(ctx context.Context, id string) (*gen.GetOnDemandRunnerConfigResponse, error)
+	DeleteRunnerProfile(ctx context.Context, id string) error
 	UpsertOidc(ctx context.Context, config OiDCConfig, amc AuthMethodConfig) (*gen.AuthMethod, error)
 	DeleteOidc(ctx context.Context, name string) error
 	GetOidcAuthMethod(ctx context.Context, name string) (*gen.GetAuthMethodResponse, error)
