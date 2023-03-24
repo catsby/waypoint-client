@@ -80,6 +80,9 @@ func (c *waypointImpl) GetRunnerProfile(ctx context.Context, id string) (*gen.Ge
 	if err != nil {
 		return nil, err
 	}
+	if godrr.Config.Id == "" {
+		godrr.Config.Id = id
+	}
 
 	return godrr, nil
 }
